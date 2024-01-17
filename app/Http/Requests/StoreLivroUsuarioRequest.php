@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Rules\ValidacaoDataAluguel;
 
 class StoreLivroUsuarioRequest extends FormRequest
 {
@@ -30,31 +31,15 @@ class StoreLivroUsuarioRequest extends FormRequest
     public function rules()
     {
         $livroId = $this->route('livroId');
-        $usuarioId = $this->route('usuarioId');
 
         return [
             'dt_aluguel_ini' => [
                 'required',
                 'date',
                 'after_or_equal:now',
-                Rule::unique('livro_usuario')->where(function ($query) {
-                    return $query->where('livro_id', $this->livro_id)
-                                 ->where('dt_aluguel_ini', '<=', $this->dt_aluguel_ini)
-                                 ->where('dt_aluguel_fim', '>=', $this->dt_aluguel_ini);
-                }),
+                new ValidacaoDataAluguel($livroId, $this->dt_aluguel_ini),
             ],
             'dt_aluguel_fim' => 'required|date|after:dt_aluguel_ini',
         ];
-    }
-
-    /**
-     * Format date to 'Y-m-d' for database comparison.
-     *
-     * @param string $date
-     * @return string
-     */
-    private function formatDate(string $date): string
-    {
-        return \Carbon\Carbon::parse($date)->format('Y-m-d');
     }
 }

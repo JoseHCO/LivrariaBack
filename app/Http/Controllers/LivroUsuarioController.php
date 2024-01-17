@@ -36,7 +36,7 @@ class LivroUsuarioController extends Controller
         ['livro' => $livro, 'usuario' => $usuario] = $this->getLivroUsuario($livroId, $usuarioId);
 
         if ($usuario->livros()->where('livro_id', $livroId)->exists()) {
-            return response()->json(['message' => 'Usuário já possui este livro.'], 422);
+            return response()->json(['message' => 'Usuário já possui este livro.'], 404);
         }
 
         $request->validate($request->rules());
@@ -44,7 +44,7 @@ class LivroUsuarioController extends Controller
         $livroDisponivel = $this->verificarDisponibilidadeLivro($livroId, $request->dt_aluguel_ini, $request->dt_aluguel_fim);
 
         if (!$livroDisponivel) {
-            return response()->json(['message' => 'Livro não disponível nesta data e hora.'], 422);
+            return response()->json(['message' => 'Livro não disponível nesta data e hora.'], 404);
         }
 
         DB::beginTransaction();
@@ -66,7 +66,7 @@ class LivroUsuarioController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
 
-            return response()->json(['message' => 'Erro ao alugar o livro.'], 500);
+            return response()->json(['message' => 'Erro ao alugar o livro.'], 404);
         }
     }
 
