@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LivroController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\LivroUsuarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +35,14 @@ Route::prefix('usuarios')->group(function () {
     Route::get('/{id}', [UsuarioController::class, 'show']);
     Route::put('/{id}', [UsuarioController::class, 'update']);
     Route::delete('/{id}', [UsuarioController::class, 'delete']);
+});
+
+Route::prefix('livros-usuarios')->group(function () {
+    Route::get('/', [LivroUsuarioController::class, 'index']);
+    Route::get('/{livroId}/{usuarioId}', [LivroUsuarioController::class, 'show']);
+    Route::post('/{livroId}/{usuarioId}', [LivroUsuarioController::class, 'alugarLivro']);
+    Route::put('/{livroId}/{usuarioId}/devolver', [LivroUsuarioController::class, 'devolverLivro']);
+    Route::put('/{livroId}/{usuarioId}', [LivroUsuarioController::class, 'update']);
+    Route::delete('/{livroId}/{usuarioId}', [LivroUsuarioController::class, 'delete']);
+    Route::get('/exportar', [LivroUsuarioController::class, 'exportarLivrosUsuarios']);
 });
