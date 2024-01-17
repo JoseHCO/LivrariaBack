@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LivroController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('livros')->group(function () {
+    Route::get('/', [LivroController::class, 'index']);
+    Route::post('/', [LivroController::class, 'create']);
+    Route::get('/{id}', [LivroController::class, 'show']);
+    Route::put('/{id}', [LivroController::class, 'update']);
+    Route::delete('/{id}', [LivroController::class, 'delete']);
 });
