@@ -8,19 +8,26 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Usuario extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'usuarios';
     const CREATED_AT = 'dt_inclusao';
-    const UPDATED_AT = 'dt_alteração';
-    
+    const UPDATED_AT = 'dt_alteracao';
+
     protected $fillable = [
         'nome',
-        'cpf'
+        'cpf',
     ];
+
+    public function livros()
+    {
+        return $this->belongsToMany(Livro::class)
+            ->withPivot(['dt_aluguel_ini', 'dt_aluguel_fim'])
+            ->withTimestamps();
+    }
 
     public static function criarUsuario($dados)
     {
-        return self::crate($dados);
+        return self::create($dados);
     }
 
     public static function obterUsuarios()

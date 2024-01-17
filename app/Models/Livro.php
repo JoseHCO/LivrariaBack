@@ -8,14 +8,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Livro extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'livros';
     const CREATED_AT = 'dt_inclusao';
-    const UPDATED_AT = 'dt_alteração';
+    const UPDATED_AT = 'dt_alteracao';
 
     protected $fillable = [
-        'nome_livro'
+        'nome_livro',
     ];
+
+    public function usuarios()
+    {
+        return $this->belongsToMany(Usuario::class)
+            ->withPivot(['dt_aluguel_ini', 'dt_aluguel_fim'])
+            ->withTimestamps();
+    }
 
     public static function criarLivro($dados)
     {
