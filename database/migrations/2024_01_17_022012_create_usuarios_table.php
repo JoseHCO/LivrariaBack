@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('nome');
+            $table->string('cpf', 11);
+            $table->timestamp('dt_inclusao', 0)->nullable();
+            $table->timestamp('dt_alteracao', 0)->nullable();
         });
     }
 
