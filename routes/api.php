@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LivroController;
+use App\Http\Controllers\UsuarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +26,12 @@ Route::prefix('livros')->group(function () {
     Route::get('/{id}', [LivroController::class, 'show']);
     Route::put('/{id}', [LivroController::class, 'update']);
     Route::delete('/{id}', [LivroController::class, 'delete']);
+});
+
+Route::prefix('usuarios')->group(function () {
+    Route::get('/', [UsuarioController::class, 'index']);
+    Route::post('/', [UsuarioController::class, 'create']);
+    Route::get('/{id}', [UsuarioController::class, 'show']);
+    Route::put('/{id}', [UsuarioController::class, 'update']);
+    Route::delete('/{id}', [UsuarioController::class, 'delete']);
 });
