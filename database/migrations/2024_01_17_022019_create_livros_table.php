@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('livros', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('nome_livro');
+            $table->timestamp('dt_inclusao', 0)->nullable();
+            $table->timestamp('dt_alteracao', 0)->nullable();
         });
     }
 
